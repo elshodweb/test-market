@@ -39,7 +39,6 @@ export default function Home() {
         getReviews(),
       ]);
       setProducts(productsData.items);
-      //   console.log("reviewsData:", reviewsData);
 
       setReviews(reviewsData);
       setTotal(productsData.total);
@@ -76,9 +75,6 @@ export default function Home() {
     };
   }, [isLoading]);
 
-  //   useEffect(() => {
-  //     console.log("products:", products);
-  //   }, [products]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-start gap-16 sm:gap-24 md:gap-32 px-4 sm:px-6 md:px-8">

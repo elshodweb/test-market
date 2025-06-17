@@ -19,7 +19,6 @@ export const getProducts = async (page = 1, pageSize = 20) => {
     const response = await api.get("/products", {
       params: { page, page_size: pageSize },
     });
-    console.log("page:", page, response.data);
 
     return response.data;
   } catch (error) {

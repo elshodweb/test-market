@@ -43,9 +43,7 @@ export const Card = ({ product }) => {
     }
   }, [count]);
 
-  useEffect(() => {
-    console.log("count", count);
-  }, [count]);
+
 
   return (
     <div className="flex flex-col justify-start items-center bg-[#D9D9D9] rounded-2xl w-full h-full px-3 sm:px-4 py-3 sm:py-4 gap-2 sm:gap-3">

@@ -16,7 +16,7 @@ export const Cart = () => {
     resetContext,
   } = useCart();
   const [error, setError] = useState(false);
-
+  const [itemsError, setItemsError] = useState(false);
   const handleChange = (event) => {
     const input = event.target.value.replace(/\D/g, "");
     let formattedInputValue = "+7";
@@ -39,6 +39,16 @@ export const Cart = () => {
   };
 
   const handleSubmit = async () => {
+    if (!customerPhone) {
+      setError(true);
+      // setTimeout(() => setError(false), 3000);
+      return;
+    }
+    if (cartItems.length === 0) {
+      setItemsError(true);
+      // setTimeout(() => setItemsError(false), 3000);
+      return;
+    }
     if (customerPhone.replace(/\D/g, "").length === 11) {
       if (cartItems.length > 0) {
         const items = cartItems.map((item) => ({
@@ -59,14 +69,11 @@ export const Cart = () => {
               dialog.classList.add("hidden");
             }, 3000);
           }
-          console.log(orderResponse);
         } catch (error) {
-          console.error("Order error:", error);
         } finally {
           resetContext();
           clearStorage();
         }
-        console.log(order);
       }
     } else {
       setError(true);
@@ -79,16 +86,17 @@ export const Cart = () => {
     clearStorage();
   };
 
-  useEffect(() => {
-    console.log("cartItems", cartItems);
-  }, [cartItems]);
-
   return (
     <div className="flex flex-col justify-start items-center sm:items-start bg-[#D9D9D9] rounded-2xl w-full max-w-[1440px] px-4 sm:px-6 py-4 sm:py-6 gap-4 sm:gap-6">
       <div className="w-full flex justify-between items-center">
         <h2 className="text-center sm:text-left text-black text-xl sm:text-2xl md:text-3xl">
           Добавленные товары
         </h2>
+        {itemsError && (
+          <span className="text-red-500 text-sm sm:text-base border-spacing-0 border-2 border-red-500 rounded-lg px-2 py-1">
+            Корзина пуста!
+          </span>
+        )}
         {cartItems.length > 0 && (
           <button
             onClick={handleClearAll}
@@ -136,9 +144,9 @@ export const Cart = () => {
         </div>
       ))}
 
-      <div className="flex w-full justify-between items-center sm:items-end flex-col gap-4 sm:flex-row relative mt-4">
+      <div className="flex relative w-full justify-between items-center sm:items-end flex-col gap-4 sm:flex-row relative mt-4">
         <input
-          className={`w-full h-12 sm:h-14 text-lg sm:text-xl text-white bg-[#222] max-w-[300px] border-none rounded-2xl focus:ring-2 focus:ring-gray-300 px-3 ${
+          className={`w-full h-14 sm:h-14 text-lg sm:text-xl text-white bg-[#222] max-w-[300px] border-none rounded-2xl focus:ring-2 focus:ring-gray-300 px-3  py-6 ${
             error ? "border-2 border-red-500" : ""
           }`}
           type="tel"
@@ -147,16 +155,11 @@ export const Cart = () => {
           placeholder="+7 (__) ___ __-__"
         />
         {error && (
-          <span className="absolute -bottom-6 sm:bottom-0 sm:left-5 text-red-500 text-sm sm:text-base">
+          <span className="absolute top-1/4  sm:absolute sm:bottom-0 sm:left-5   text-red-500 text-sm sm:text-base">
             Телефон введен неполностью
           </span>
         )}
-        <Button
-          onClick={handleSubmit}
-          disabled={cartItems.length === 0}
-          size={"full"}
-          title={"заказать"}
-        />
+        <Button onClick={handleSubmit} size={"full"} title={"заказать"} />
       </div>
       <div
         id="dialog"
