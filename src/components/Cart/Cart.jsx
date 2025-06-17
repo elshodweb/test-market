@@ -41,12 +41,12 @@ export const Cart = () => {
   const handleSubmit = async () => {
     if (!customerPhone) {
       setError(true);
-      // setTimeout(() => setError(false), 3000);
+      setTimeout(() => setError(false), 3000);
       return;
     }
     if (cartItems.length === 0) {
       setItemsError(true);
-      // setTimeout(() => setItemsError(false), 3000);
+      setTimeout(() => setItemsError(false), 3000);
       return;
     }
     if (customerPhone.replace(/\D/g, "").length === 11) {

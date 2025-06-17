@@ -27,13 +27,12 @@ export const Card = ({ product }) => {
     setCount((prevCount) => prevCount - 1);
   };
 
-  // Initialize count from cart items when component mounts
   useEffect(() => {
     const cartItem = cartItems.find((item) => item.id === product.id);
     if (cartItem) {
       setCount(cartItem.count);
     }
-  }, []); // Empty dependency array means this runs once on mount
+  }, []); 
 
   useEffect(() => {
     if (count > 0) {
